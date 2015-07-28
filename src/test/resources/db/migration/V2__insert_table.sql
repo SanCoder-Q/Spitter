@@ -1,0 +1,1 @@
+INSERT INTO `users_test` VALUES (1,'test1'), (2, 'test2');

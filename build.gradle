@@ -1,0 +1,53 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'flyway'
+
+task "create-dirs" << {
+    sourceSets*.java.srcDirs*.each{ it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each{ it.mkdirs() }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework:spring-context:3.2.14.RELEASE'
+    compile 'org.aspectj:aspectjweaver:1.8.6'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.flywaydb:flyway-core:3.2.1'
+    testCompile 'com.h2database:h2:1.4.187'
+    testCompile 'mysql:mysql-connector-java:5.1.36'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.googlecode.flyway:flyway-gradle-plugin:2.3.1"
+        classpath "mysql:mysql-connector-java:5.1.36"
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java/'
+            exclude '**/*.xml'
+        }
+    }
+}
+
+flyway {
+    user = 'root'
+    password = ''
+    driver = 'com.mysql.jdbc.Driver'
+    url = 'jdbc:mysql://127.0.0.1:3306/spitter?characterEncoding=utf8'
+    locations = ['filesystem:./src/main/resources/db/migration']
+}
+
+
