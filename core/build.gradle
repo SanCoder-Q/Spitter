@@ -1,0 +1,39 @@
+apply plugin: 'flyway'
+
+dependencies {
+    compile 'org.springframework:spring-context:4.1.7.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.1.7.RELEASE'
+    compile 'org.springframework:spring-orm:4.1.7.RELEASE'
+//    compile 'org.hibernate:hibernate-core:4.3.10-Final'
+    compile 'org.hibernate:hibernate-entitymanager:3.6.10.Final'
+    compile 'org.aspectj:aspectjweaver:1.8.6'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+    compile 'mysql:mysql-connector-java:5.1.36'
+    compile 'log4j:log4j:1.2.17'
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.flywaydb:flyway-core:3.2.1'
+    testCompile 'com.h2database:h2:1.4.187'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.googlecode.flyway:flyway-gradle-plugin:2.3.1"
+        classpath "mysql:mysql-connector-java:5.1.36"
+    }
+}
+
+flyway {
+    user = 'root'
+    password = ''
+    driver = 'com.mysql.jdbc.Driver'
+    url = 'jdbc:mysql://127.0.0.1:3306/spitter?characterEncoding=utf8'
+    locations = ['filesystem:./core/src/main/resources/db/migration']
+}
+
+
